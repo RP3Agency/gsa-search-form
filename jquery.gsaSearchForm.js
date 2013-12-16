@@ -20,7 +20,7 @@
 			prevLink,
 			queryParams = {
 				q: null,
-				start: parseInt( ( search.vars.resultsStart ? search.vars.resultsStart : 0) ),
+				start: 0,
 				num: parseInt( ( search.vars.resultsPerPage ? search.vars.resultsPerPage : 10) )
 			};
 
@@ -82,12 +82,9 @@
 
 		// public methods
 		search.submitQuery = function(query, start, num) {
-			console.log('gsa search term: ' + query);
 			
 			var callback = 'gsaJsonpCallback',
 				url = api + '?q='+query+'&start='+start+'&num='+num+'&jsonp=1&callback='+callback;
-				
-			console.log('gsa request: '+url);
 			
 			$.ajax({
 				type: 'GET',
@@ -175,8 +172,7 @@
 		namespace: 'gsa-',
 		api: null,
 		inputSelector: '.search-input',
-		resultsPerPage: 10,
-		resultsStart: 0
+		resultsPerPage: 10
 	}
 	
 	//gsaSearchForm: Default Settings
