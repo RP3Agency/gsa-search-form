@@ -38,7 +38,7 @@ $(".search-page").gsaSearchForm({
 
 ## Notes
 
-Further documentation on [Search Appliance request parameters](https://developers.google.com/search-appliance/documentation/614/xml_reference#request_parameters)
+Further documentation on [Search Appliance request parameters here](https://developers.google.com/search-appliance/documentation/614/xml_reference#request_parameters).
 
 This plugin is built to parse jsonp results from this Google Search Appliance Front End XSLT template:
 
