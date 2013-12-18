@@ -26,11 +26,19 @@ $(".search-page").gsaSearchForm({
 ##Options
 
 * `api` - url for the GSA service that will return search results. Do not include query string parameters.
-*  `namespace` - prefix for generated css classes. Defaults to `gsa-`
-*  `inputSelector` - jQuery DOM selector for search term text input. Defaults to `.search-input`
-*  `resultsPerPage` - defaults to 10
+* `site` - specified collection
+* `client` - name of a valid front end
+* `output` - format of the search results, defaults to `xml_no_dtd`
+* `proxyStylesheet` - name of a valid front end 
+* `filter` - use 1 to turn on automatic results filtering, defaults to 0
+* `resultsPerPage` - maximum value of this parameter is 1000, defaults to 10
+* `namespace` - prefix for generated css classes, defaults to `gsa-`
+* `inputSelector` - jQuery DOM selector for search term text input, defaults to `.search-input`
+* `noResultsMessage` - text to display when no results are returned, defaults to `No results found.`
 
 ## Notes
+
+Further documentation on [Search Appliance request parameters](https://developers.google.com/search-appliance/documentation/614/xml_reference#request_parameters)
 
 This plugin is built to parse jsonp results from this Google Search Appliance Front End XSLT template:
 

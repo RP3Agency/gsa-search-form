@@ -21,8 +21,14 @@
 			queryParams = {
 				q: null,
 				start: 0,
-				num: parseInt( ( search.vars.resultsPerPage ? search.vars.resultsPerPage : 10) )
-			};
+				num: parseInt(search.vars.resultsPerPage),
+				site: search.vars.site,
+				client: search.vars.client,
+				output: search.vars.output,
+				proxyStylesheet: search.vars.proxyStylesheet,
+				filter: search.vars.filter
+			},
+			noResultsMessage   = search.vars.noResultsMessage;
 
 		// Store a reference to the search form object
 		$.data(el, 'gsaSearchForm', search);
@@ -84,7 +90,7 @@
 		search.submitQuery = function(query, start, num) {
 			
 			var callback = 'gsaJsonpCallback',
-				url = api + '?q='+query+'&start='+start+'&num='+num+'&jsonp=1&callback='+callback;
+				url = api + '?site='+queryParams.site+'&client='+queryParams.client+'&output='+queryParams.output+'&proxystylesheet='+queryParams.proxyStylesheet+'&filter='+queryParams.filter+'&q='+query+'&start='+start+'&num='+num+'&jsonp=1';
 			
 			$.ajax({
 				type: 'GET',
@@ -95,9 +101,18 @@
 				dataType: 'jsonp',
 				success: function(json) {
 					
-					resultsInfo.text('Showing results '+json.results_nav.results_start+'-'+json.results_nav.results_end+' of about '+json.results_nav.total_results+' total results.');
+					if (json.results) {
+						
+						resultsInfo.text('Showing results '+json.results_nav.results_start+'-'+json.results_nav.results_end+' of about '+json.results_nav.total_results+' total results.');
+						search.populateResults(json.results);
 					
-					search.populateResults(json.results);
+					} else {
+						
+						resultsInfo.html(noResultsMessage);
+						results.html('');
+						
+					}
+					
 					
 					if (json.results_nav.have_next) {
 						nextLink.show();
@@ -117,6 +132,7 @@
 					    var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?q='+json.query+'&start='+queryParams.start+'&num='+num;
 					    window.history.pushState({path:newurl},'',newurl);
 					}
+					
 				},
 				error: function(e) {
 					console.log(e.message);
@@ -126,13 +142,19 @@
 		
 		search.populateResults = function(resultsObj) {
 			
-			results.html('');
-			
-			$.each(resultsObj, function( index, value ) {
+			results.fadeOut('fast', function() {
 				
-				var result = value;
+				results.html('');
+
+				$.each(resultsObj, function( index, value ) {
+
+					var result = value;
+
+					results.append('<div class="'+namespace+'result result"><div class="'+namespace+'result-title result-title"><a href="'+result.url+'">'+result.title+'</a></div><div class="'+namespace+'result-url result-url">'+result.url+'</div><div class="'+namespace+'result-summary result-summary">'+result.summary+'</div></div>');
+
+				});
 				
-				results.append('<div class="'+namespace+'result result"><div class="'+namespace+'result-title result-title"><a href="'+result.url+'">'+result.title+'</a></div><div class="'+namespace+'result-url result-url">'+result.url+'</div><div class="'+namespace+'result-summary result-summary">'+result.summary+'</div></div>');
+				results.fadeIn();
 				
 			});
 			
@@ -169,10 +191,16 @@
 	
 	//gsaSearchForm: Default Settings
 	$.gsaSearchForm.defaults = {
-		namespace: 'gsa-',
 		api: null,
+		site: '',
+		client: '',
+		output: 'xml_no_dtd',
+		proxyStylesheet: '',
+		filter: 0,
+		resultsPerPage: 10,
+		namespace: 'gsa-',
 		inputSelector: '.search-input',
-		resultsPerPage: 10
+		noResultsMessage: 'No results found.'
 	}
 	
 	//gsaSearchForm: Default Settings
