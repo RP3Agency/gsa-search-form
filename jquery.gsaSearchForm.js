@@ -1,4 +1,10 @@
-/* Wire up an html form to query Google Search Appliance and parse json results */
+/* 
+ * GSA Search Form
+ * Wire up an html form to query Google Search Appliance and parse json results
+ *
+ * created by: Sarah Goldman, sgoldman@rp3agency.com
+ *
+ */
 (function($) {
 	
 	//gsaSearchForm: Object Instance
