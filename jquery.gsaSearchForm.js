@@ -67,7 +67,7 @@
 				
 				if (params.q) {
 					queryParams.q = params.q;
-					searchBox.val(decodeURIComponent(queryParams.q));
+					searchBox.val(decodeURIComponent(queryParams.q).replace(/\+/g,' '));
 					search.submitQuery(queryParams.q, queryParams.start, queryParams.num);
 				}
 				
